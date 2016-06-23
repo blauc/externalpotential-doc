@@ -1,0 +1,36 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+ width="600px" height="78px"
+ viewBox="0 0 600 78"
+ xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"
+ stroke-width="1" text-rendering="geometricPrecision">
+<polygon fill="white" points="79,7 119,7 119,16 79,16"/>
+<text x="100" y="16" textLength="39" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Runner
+</text>
+<polygon fill="white" points="229,7 369,7 369,16 229,16"/>
+<text x="300" y="16" textLength="138" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+ExternalPotentialManager
+</text>
+<polygon fill="white" points="437,7 561,7 561,16 437,16"/>
+<text x="500" y="16" textLength="122" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+SomeExternalPotential
+</text>
+<line x1="100" y1="22" x2="100" y2="50" stroke="black"/>
+<line x1="300" y1="22" x2="300" y2="50" stroke="black"/>
+<line x1="500" y1="22" x2="500" y2="50" stroke="black"/>
+<line x1="100" y1="33" x2="300" y2="33" stroke="black"/>
+<polygon fill="black" points="300,33 290,39 290,27"/>
+<line x1="100" y1="50" x2="100" y2="78" stroke="black"/>
+<line x1="300" y1="50" x2="300" y2="78" stroke="black"/>
+<line x1="500" y1="50" x2="500" y2="78" stroke="black"/>
+<line x1="300" y1="61" x2="500" y2="61" stroke="black"/>
+<polygon fill="black" points="500,61 490,67 490,55"/>
+<line x1="100" y1="72" x2="100" y2="78" stroke="black"/>
+<line x1="300" y1="72" x2="300" y2="78" stroke="black"/>
+<line x1="500" y1="72" x2="500" y2="78" stroke="black"/>
+</svg>
