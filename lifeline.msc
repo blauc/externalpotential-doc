@@ -1,0 +1,9 @@
+msc{
+  hscale = "1";
+
+  Runner, ExternalPotentialManager, SomeExternalPotential;
+  Runner => ExternalPotentialManager;
+  ExternalPotentialManager => SomeExternalPotential;
+
+
+}

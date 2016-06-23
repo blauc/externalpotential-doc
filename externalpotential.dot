@@ -1,0 +1,119 @@
+digraph{
+
+  graph [splines=ortho, nodesep=1]
+  node [fontname="Ubuntu",fontsize="10",shape=record];
+  edge [fontsize="10",labelfontsize="20"];
+
+  IExternalPotential [
+    label="{\<\<Interface\>\> \n IExternalPotential||"
+        +"+ virtual init(state, ParameterSet, AtomSet)\l"
+        +"+ virtual reinit(state)\l"
+        +"+ virtual calculate(state, step)\l"
+        +"+ virutal this_step(step:int)\l"
+        +"+ virtual result():ExternalPotentialResult\l"
+        +"+ virtual set_parallelization(\l"
+        + "Parallel:ParallelizationInfrastructure)\r"
+        +"+ virtual finish()\l"
+        +"}"
+    ];
+
+  ExternalPotentialResult [
+    label="{ExternalPotentialResult|"
+        + "- potential: real\l"
+        + "- force:vector\<RVec\>\l"
+        + "- affected_atoms: shared_ptr\<AtomSet\>\l"
+        + "- virial:real\l|"
+        +"}"
+    ]
+
+  ExternalPotentialHelpers [
+    label="{ExternalPotentialHelpers|"
+        + "-impl\l|"
+        +"+ sum_reduce_potential_virial()\l"
+        +" # read_input()\l"
+        +" # set_atom_properties(t_mdatoms * mdatoms, gmx_localtop_t * toplogy_loc);\l"
+        +" # AtomSetCoordinates(const rvec x[], int group_index);\l"
+        +" # single_atom_properties()\l"
+        +" # broadcast_internal()\l}"
+    ];
+
+  AtomProperties [label="{AtomProperties||}"];
+
+  Foo [label="{SomeConcretePotential}" ];
+  FooInfo [label="{SomeConcretePotentialInfo|"
+          + "+ static name:string\l"
+          + "+ static create:ModuleCreator\l"
+          + "+ static shortDescription:string\l"
+          + "+ static numberIndexGroups:int\l}"
+          ]
+
+  ExternalPotentialManager [
+    label=
+        "{ExternalPotentialManager|"
+        + "- vector\<IExternalPotential\>\l"
+        + "- modules_:Modules\l|"
+        + "+ init()\l"
+        + "+ calculate()\l"
+        + "+ add_results()\l"
+        + "+ set_parallelization()\l"
+        + "+ finish()\l}"
+    ];
+
+    AtomSet [
+    label=
+        "{AtomSet|"
+        + "+ AtomSet(natoms:int, index:vector\<int\>,
+            global_to_local: gmx_ga2la_t *)\r"
+        + "+ reinit(ga2la: gmx_ga2la_t *)\l"
+        + "}"
+    ]
+
+    AtomSetManager [
+    label=
+        "{AtomSetManager|"
+        + " - vector<AtomSets>|"
+        + "+ reinit(ga2la: gmx_ga2la_t *)\l"
+        + "+ finish()\l}"
+        ];
+
+  Modules [label="{Modules|"
+    + " + module: std::map\<ModuleName, ModuleProperties\> \l"
+    + " \<\<typedef\>\> ModuleName:string\l| }"
+    ];
+  ModuleProperties [label="{ModuleProperties|"
+          + "+ \<\<typedef\>\> unique_ptr\<IExternalPotential\> (* ModuleCreator) ()\l"
+          + "+ create:ModuleCreator\l"
+          + "+ shortDescription:string\l"
+          + "+ numberIndexGroups:int\l}"
+          ]
+  ParallelizationInfrastructure [
+    label="{ParallelizationInfrastructure|"
+    + "|"
+    + "+ cr()\l"
+    + "+ sum_reduce()\l"
+    + "+ broadcast()\l"
+    + "+ isMaster()\l"
+    + "+ from_buffer()\l"
+    + "+ to_buffer()\l"
+    + "}"];
+
+  edge[arrowhead = "odiamond"];
+
+  IExternalPotential -> ExternalPotentialManager;
+  AtomSet -> AtomSetManager;
+  ModuleProperties -> Modules;
+
+  edge[arrowhead = "empty"];
+  Foo ->IExternalPotential;
+  Foo ->ExternalPotentialHelpers;
+  edge[arrowhead = "vee", style = "dashed"];
+  IExternalPotential -> ExternalPotentialResult ;
+  ExternalPotentialManager -> ExternalPotentialResult;
+  IExternalPotential -> AtomSet;
+  ExternalPotentialManager -> Modules;
+  ExternalPotentialResult -> AtomSet;
+  ExternalPotentialHelpers -> AtomProperties;
+  FooInfo -> Modules [label="registerExternalPotentialModules"];
+  IExternalPotential -> ParallelizationInfrastructure;
+
+}
